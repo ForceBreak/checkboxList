@@ -1,18 +1,29 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld :items="books" :disableTo="2" @selected="selected"/>
+      <keep-alive>
+        <component
+          v-bind:is="currentTabComponent"
+          v-bind="currentProperties"
+          @selected="selected"
+          class="tab"
+        >
+        </component>
+      </keep-alive>
+      <button @click="changeComponent">Переключить</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import HelloAsync from '@/components/HelloAsync.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    HelloWorld,
+    HelloAsync
   },
   data() {
     return {
@@ -31,13 +42,30 @@ export default {
         { id: 12, name: 'Harray potter 12', authorId: 1 },
         { id: 13, name: 'Harray potter 13', authorId: 1 },
       ],
-      selectedBooks: []
+      selectedBooks: [],
+      currentTab: 'world'
     }
   },
   methods: {
     selected(selected) {
       this.selectedBooks = selected
+    },
+    changeComponent() {
+      this.currentTab == 'world' ? this.currentTab = 'async' : this.currentTab = 'world'
     }
-  }
+  },
+  computed: {
+    currentTabComponent() {
+      return 'hello-' + this.currentTab.toLowerCase()
+    },
+    currentProperties() {
+      if(this.currentTab == 'world') {
+        return {
+          items: this.books, 
+          disableTo: 2
+        }
+      }
+    }
+  },
 }
 </script>

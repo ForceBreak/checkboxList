@@ -16,11 +16,24 @@
 </template>
 
 <script>
+
 export default {
-  name: 'HelloWorld',
+  name: 'hello-world',
   props: {
-    items: Array,
-    disableTo: Number
+    items: {
+      type: Array,
+      default:
+        function () {
+          return [
+            { id: 1, name: 'Harray potter 1', authorId: 1 },
+            { id: 2, name: 'Harray potter 2', authorId: 1 },
+          ]
+        } 
+    },
+    disableTo: {
+      type: Number,
+      default: 2
+    }
   },
   data() {
     return {
